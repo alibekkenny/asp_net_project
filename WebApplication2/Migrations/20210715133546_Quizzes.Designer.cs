@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication2.Models;
 
 namespace WebApplication2.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    partial class UsersContextModelSnapshot : ModelSnapshot
+    [Migration("20210715133546_Quizzes")]
+    partial class Quizzes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +28,7 @@ namespace WebApplication2.Migrations
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quiz")
+                    b.Property<int>("QuizId")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserID")
@@ -35,6 +37,8 @@ namespace WebApplication2.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
+
+                    b.HasIndex("QuizId");
 
                     b.HasIndex("UserID");
 
@@ -53,6 +57,25 @@ namespace WebApplication2.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("WebApplication2.Models.Quiz", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("Quizzes");
                 });
 
             modelBuilder.Entity("WebApplication2.Models.University", b =>
@@ -99,6 +122,12 @@ namespace WebApplication2.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebApplication2.Models.Quiz", "Quiz")
+                        .WithMany()
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WebApplication2.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
@@ -107,7 +136,20 @@ namespace WebApplication2.Migrations
 
                     b.Navigation("Question");
 
+                    b.Navigation("Quiz");
+
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebApplication2.Models.Quiz", b =>
+                {
+                    b.HasOne("WebApplication2.Models.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("WebApplication2.Models.User", b =>

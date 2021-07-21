@@ -30,7 +30,13 @@ namespace WebApplication2
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContextPool<UsersContext>(options => options.UseMySql(connection,ServerVersion.AutoDetect(connection)));
-            
+
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
 
             services.AddControllers();
 
@@ -54,6 +60,8 @@ namespace WebApplication2
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("MyPolicy");
 
             app.UseAuthorization();
 
