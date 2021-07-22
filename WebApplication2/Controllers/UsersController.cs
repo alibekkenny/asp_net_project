@@ -21,7 +21,7 @@ namespace WebApplication2.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            return Ok(await Task.Run(() => _context.Users.ToArray()));
+            return Ok(await Task.Run(() => _context.Users));
         }
         [HttpGet]
         [Route("{id}")]

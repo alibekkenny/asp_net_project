@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace WebApplication2.Models
 {
-    public class User
+    public class Person
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
-        
     }
 }
