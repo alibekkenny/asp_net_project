@@ -38,9 +38,9 @@ namespace WebApplication2.Controllers
 
         [HttpPost]
         [Route("token")]
-        public async Task<IActionResult> Token(string username, string password)
+        public async Task<IActionResult> Token(string email, string password)
         {
-            var identity = GetIdentity(username, password);
+            var identity = GetIdentity(email, password);
             if(identity == null)
             {
                 return BadRequest(new { errorText = "Invalid username or password" });
